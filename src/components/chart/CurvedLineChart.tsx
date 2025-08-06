@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import type { DataPoint, LineChartProps } from "../../utils/types";
-import { parsedData, parsedHighlights } from "../../utils/helper";
+import { getCurrentTime, parsedData, parsedHighlights } from "../../utils/helper";
 
 const margin = { top: 40, right: 40, bottom: 40, left: 60 };
 
@@ -179,6 +179,31 @@ const LineChart: React.FC<LineChartProps> = ({
       .duration(2000)
       .ease(d3.easeLinear)
       .attr("stroke-dashoffset", 0);
+
+    // Add current time indicator
+    const currentTime = getCurrentTime();
+
+    // Add white line
+    g.append("line")
+      .attr("class", "current-time-line")
+      .attr("x1", 0)
+      .attr("x2", innerWidth)
+      .attr("y1", y(currentTime))
+      .attr("y2", y(currentTime))
+      .attr("stroke", "white")
+      .attr("stroke-width", 2)
+      .style("filter", "drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.3))");
+
+    // Add white dot
+    g.append("circle")
+      .attr("class", "current-time-indicator")
+      .attr("cx", -10) // Position it on the y-axis
+      .attr("cy", y(currentTime))
+      .attr("r", 4)
+      .attr("fill", "white")
+      .attr("stroke", "#666")
+      .attr("stroke-width", 1)
+      .style("filter", "drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.3))");
 
   }, [data, highlights, height, width]);
 
