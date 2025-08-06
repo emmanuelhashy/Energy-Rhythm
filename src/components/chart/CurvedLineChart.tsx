@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import type { DataPoint, LineChartProps } from "../../utils/types";
-import { parsedData } from "../../utils/helper";
+import { parsedData, parsedHighlights } from "../../utils/helper";
 
 const margin = { top: 40, right: 40, bottom: 40, left: 60 };
 
@@ -88,6 +88,22 @@ const LineChart: React.FC<LineChartProps> = ({
       .attr("text-anchor", "middle")
       .text("Energy Level")
       .attr("fill", "white");
+
+    // Add background sections
+    g.selectAll(".time-section")
+      .data(parsedHighlights(highlights).slice(0, -1)) // Exclude last item to pair with next
+      .enter()
+      .append("rect")
+      .attr("class", "time-section")
+      .attr("x", 0)
+      .attr("width", innerWidth)
+      .attr("y", (d) => y(d.time))
+      .attr("height", (d, i) => {
+        const nextTime = parsedHighlights(highlights)[i + 1].time;
+        return y(nextTime) - y(d.time);
+      })
+      .attr("fill", (d) => d.color)
+      .attr("opacity", 0.1);
 
     // Create gradient definitions
     const defs = svg.append("defs");
