@@ -1,9 +1,15 @@
 import LineChart from "./components/chart/CurvedLineChart";
 import { energyData, highlights } from "./utils/data";
 import "./App.css";
+import {
+  getCurrentFactAndRecommendation,
+  getCurrentLabel,
+} from "./utils/helper";
 import Calendar from "./components/icons/Calendar";
 
 export default function App() {
+  const currentLabel = getCurrentLabel(highlights);
+  const info = getCurrentFactAndRecommendation(currentLabel);
 
   return (
     <div className="w-full pt-8 px-16">
@@ -14,6 +20,8 @@ export default function App() {
           <p>See your schedule</p>
         </div>
       </div>
+      <p className="text-lg font-medium text-[#4287f5]"> {info.fact}</p>
+      <p className="text-base text-[#b5703d]"> {info.recommendation}</p>
       <LineChart
         data={energyData}
         highlights={highlights}

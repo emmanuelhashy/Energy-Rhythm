@@ -1,4 +1,4 @@
-import type { EnergyPoint, Highlight } from "./types";
+import type { EnergyPoint, TimeLabel, TimePeriodInfo, Highlight } from "./types";
 
 const today = new Date();
 const todayISO = today.toISOString().split('T')[0];
@@ -38,3 +38,30 @@ export const energyData: EnergyPoint[] = [
     { time: `${todayISO}T13:00:00Z`, label: '📉 Midday Dip', color: '#b5703d' },
     { time: `${todayISO}T15:00:00Z`, label: '📈 Afternoon Rebound', color: '#4287f5' },
   ]
+
+export const hashTable: Record<TimeLabel, TimePeriodInfo> = {
+    '🌙 Bedtime': {
+        fact: 'You are winding down for the day.',
+        recommendation: 'Consider relaxing activities.'
+    },
+    '🌄 Early Morning': {
+        fact: 'A fresh start!',
+        recommendation: 'Perfect time for planning your day.'
+    },
+    '🧭 Wake up': {
+        fact: 'You are awake',
+        recommendation: 'Get ready to take on the day!'
+    },
+    '☀️ Morning Peak': {
+        fact: 'Your energy is at its highest.',
+        recommendation: 'Tackle your most important tasks.'
+    },
+    '📉 Midday Dip': {
+        fact: 'Your energy levels are dropping.',
+        recommendation: 'Take a break or have a snack.'
+    },
+    '📈 Afternoon Rebound': {
+        fact: 'Your energy is picking up again.',
+        recommendation: 'Great time for creative work.'
+    },
+}
