@@ -105,6 +105,34 @@ const LineChart: React.FC<LineChartProps> = ({
       .attr("fill", (d) => d.color)
       .attr("opacity", 0.1);
 
+    // Add labels for sections
+    parsedHighlights(highlights).forEach((d) => {
+      const text = g
+        .append("text")
+        .text(d.label)
+        .attr("class", "time-label")
+        .attr("x", innerWidth - 190)
+        .attr("y", y(d.time) + 15)
+        .attr("fill", d.color)
+        .attr("font-size", "16px")
+        .attr("font-weight", "bold")
+        .style("pointer-events", "none");
+
+      // Get text dimensions
+      const bbox = text.node()!.getBBox();
+
+      // Insert a rect behind the text
+      g.insert("rect", "text.time-label")
+        .attr("x", bbox.x - 4)
+        .attr("y", bbox.y - 2)
+        .attr("width", bbox.width + 12)
+        .attr("height", bbox.height + 6)
+        .attr("fill", d.color)
+        .attr("opacity", 0.2)
+        .attr("rx", 4)
+        .attr("ry", 4);
+    });
+
     // Create gradient definitions
     const defs = svg.append("defs");
 
